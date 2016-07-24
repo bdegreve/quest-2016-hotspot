@@ -1,10 +1,19 @@
 const MOVE_TILE = 'MOVE_TILE'
 const N = 4
 
+// Melencolia I ;-)
+const INITIAL = [
+  null, 3, 2, 13,
+  5, 10, 11, 8,
+  9, 6, 7, 12,
+  4, 15, 14, 1
+]
+
 export const initialState = {
-  tiles: [...Array(N * N).keys()].map((_, index) => ({
-    value: index || null
-  }))
+  tiles: INITIAL.map((value) => ({
+    value
+  })),
+  solved: false
 }
 
 const index2ij = (index) => ({
@@ -43,6 +52,10 @@ const findSwapIndex = (tiles, index) => {
   return null
 }
 
+const isSolved = (tiles) => tiles.every(({value}, index) => (
+  value === (index < (tiles.length - 1) ? (index + 1) : null) 
+))
+
 export default function (state = initialState, action) {
   switch (action.type) {
     case MOVE_TILE:
@@ -55,7 +68,8 @@ export default function (state = initialState, action) {
           newTiles[index] = tiles[index2]
           newTiles[index2] = tiles[index]
           return Object.assign({}, state, {
-            tiles: newTiles
+            tiles: newTiles,
+            solved: isSolved(newTiles)
           })
         }
       }

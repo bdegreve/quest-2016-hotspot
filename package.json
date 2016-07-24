@@ -28,6 +28,7 @@
     "less-loader": "^2.2.3",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
+    "react-flip-move": "^2.4.2",
     "react-redux": "^4.4.5",
     "react-router": "^2.6.0",
     "react-router-redux": "^4.0.5",

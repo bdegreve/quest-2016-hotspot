@@ -50,7 +50,6 @@ export default function (state = initialState, action) {
         const {tiles} = state
         const index = tiles.findIndex((tile) => tile.value === action.value)
         const index2 = findSwapIndex(tiles, index)
-        console.log('been here', state, index, index2)
         if (index2 !== null) {
           const newTiles = tiles.slice()
           newTiles[index] = tiles[index2]

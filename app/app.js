@@ -1,15 +1,33 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ReactDOMServer from 'react-dom/server'
+import { createStore, combineReducers } from 'redux'
+import { Provider } from 'react-redux'
 import { Router, RouterContext, browserHistory, match, createMemoryHistory } from 'react-router'
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 import routes from './routes'
+import reducers, { initialState } from './reducers'
 import './app.less'
 
 if (typeof document !== 'undefined') {
-  match({routes, history: browserHistory}, (_, redirectLocation, renderProps) => {
+  const initialState = JSON.parse(document.getElementById('initial-state').innerHTML)
+
+  const store = createStore(
+    combineReducers(Object.assign({},
+      reducers, {
+        routing: routerReducer
+      }
+    )),
+    initialState
+  )
+
+  const history = syncHistoryWithStore(browserHistory, store)
+  match({routes, history}, (_, redirectLocation, renderProps) => {
     ReactDOM.render(
-      <Router {...renderProps} />,
+      <Provider store={store}>
+        <Router {...renderProps} />
+      </Provider>,
       document.getElementById('content')
     )
   })
@@ -21,17 +39,26 @@ export default (locals, callback) => {
   const scripts = assets.filter((asset) => /\.jsx?$/.test(asset))
   const stylesheets = assets.filter((asset) => /\.css$/.test(asset))
 
-  const history = createMemoryHistory()
+  const store = createStore(
+    combineReducers(Object.assign({},
+      reducers, {
+        routing: routerReducer
+      }
+    )),
+    initialState
+  )
+
+  const history = syncHistoryWithStore(createMemoryHistory(), store)
   const location = history.createLocation(locals.path)
 
-  return match({routes, location, history}, (err, redirect, props) => {
+  return match({routes, location, history}, (err, redirectLocation, renderProps) => {
     if (err) {
       throw err
     }
-    if (redirect) {
+    if (redirectLocation) {
       throw new Error(`app.js: Cannot deal with redirections yet for ${locals.path}`)
     }
-    if (!props) {
+    if (!renderProps) {
       throw new Error(`app.js: Route ${locals.path} not found.`)
     }
 
@@ -40,7 +67,9 @@ export default (locals, callback) => {
     // (via http://stackoverflow.com/a/37621838)
 
     const content = ReactDOMServer.renderToString(
-      <RouterContext {...props} />
+      <Provider store={store}>
+        <RouterContext {...renderProps} />
+      </Provider>
     )
 
     const title = 'Lourdes Quest'
@@ -57,6 +86,10 @@ export default (locals, callback) => {
         </head>
         <body>
           <div id='content' dangerouslySetInnerHTML={{__html: content}} />
+          <script id='initial-state'
+            type='application/json'
+            dangerouslySetInnerHTML={{__html: safeStringify(initialState)}}
+          />
           {scripts.map((asset, index) => (
             <script key={index} type='text/javascript' src={asset} />
           ))}
@@ -75,4 +108,8 @@ function getAssetPaths (webpackStats, chunckName) {
     publicPath += '/'
   }
   return assets.map((asset) => publicPath + asset)
+}
+
+function safeStringify (obj) {
+  return JSON.stringify(obj).replace(/<\/script/g, '<\\/script').replace(/<!--/g, '<\\!--')
 }

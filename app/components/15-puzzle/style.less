@@ -9,16 +9,20 @@
   }
 
   .tile {
-    box-sizing: border-box;
     width: @tile-size;
     height: @tile-size;
-    line-height: @tile-size;
+
+    box-sizing: border-box;
     border: 1px solid gray;
     border-radius: (@tile-size / 20);
     background-color: lightgray;
+
     text-align: center;
     vertical-align: middle;
+    line-height: @tile-size;
     font-size: (@tile-size / 2);
+
+    cursor: pointer;
   }
 
   .square {

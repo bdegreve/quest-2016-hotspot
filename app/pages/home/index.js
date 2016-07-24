@@ -1,11 +1,7 @@
 import React from 'react'
 
-import Puzzle from 'components/15-puzzle'
-
-const tiles = [...Array(16).keys()].map((_, index) => ({
-  value: index ? index : null,
-}))
+import Puzzle from 'containers/15-puzzle'
 
 export default () => (
-  <Puzzle tiles={tiles} />
+  <Puzzle />
 )

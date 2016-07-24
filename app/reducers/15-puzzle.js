@@ -53,7 +53,7 @@ const findSwapIndex = (tiles, index) => {
 }
 
 const isSolved = (tiles) => tiles.every(({value}, index) => (
-  value === (index < (tiles.length - 1) ? (index + 1) : null) 
+  value === (index < (tiles.length - 1) ? (index + 1) : null)
 ))
 
 export default function (state = initialState, action) {

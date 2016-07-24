@@ -1,5 +1,11 @@
 import React from 'react'
 
+import Puzzle from 'components/15-puzzle'
+
+const tiles = [...Array(16).keys()].map((_, index) => ({
+  value: index ? index : null,
+}))
+
 export default () => (
-  <h1>Hello World!</h1>
+  <Puzzle tiles={tiles} />
 )

@@ -43,7 +43,7 @@ export default (locals, callback) => {
       <RouterContext {...props} />
     )
 
-    const title = 'static bootsrap website bootstrap'
+    const title = 'Lourdes Quest'
     const html = ReactDOMServer.renderToStaticMarkup(
       <html lang='en'>
         <head>

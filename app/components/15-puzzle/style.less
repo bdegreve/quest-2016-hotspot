@@ -1,0 +1,28 @@
+@tile-size: 100px;
+
+:local {
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    width: (4 * @tile-size);
+    height: (4 * @tile-size);
+  }
+
+  .tile {
+    box-sizing: border-box;
+    width: @tile-size;
+    height: @tile-size;
+    line-height: @tile-size;
+    border: 1px solid gray;
+    border-radius: (@tile-size / 20);
+    background-color: lightgray;
+    text-align: center;
+    vertical-align: middle;
+    font-size: (@tile-size / 2);
+  }
+
+  .square {
+    width: @tile-size;
+    height: @tile-size;
+  }
+}

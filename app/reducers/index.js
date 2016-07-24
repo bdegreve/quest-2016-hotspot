@@ -1,11 +1,5 @@
-import fifteenPuzzle, { initialState as fifteenInitialState } from './15-puzzle'
+import fifteenPuzzle from './15-puzzle'
 
-const reducers = {
+export default {
   '15-puzzle': fifteenPuzzle
 }
-
-export const initialState = {
-  '15-puzzle': fifteenInitialState
-}
-
-export default reducers

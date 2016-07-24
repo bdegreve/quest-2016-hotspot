@@ -7,20 +7,17 @@ import { Router, RouterContext, browserHistory, match, createMemoryHistory } fro
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 import routes from './routes'
-import reducers, { initialState } from './reducers'
+import reducers from './reducers'
 import './app.less'
 
-if (typeof document !== 'undefined') {
-  const initialState = JSON.parse(document.getElementById('initial-state').innerHTML)
+const rootReducer = combineReducers(Object.assign({}, reducers, {
+  routing: routerReducer
+}))
 
-  const store = createStore(
-    combineReducers(Object.assign({},
-      reducers, {
-        routing: routerReducer
-      }
-    )),
-    initialState
-  )
+if (typeof document !== 'undefined') {
+  const initialStateElement = document.getElementById('initial-state')
+  const initialState = initialStateElement ? JSON.parse(initialStateElement.innerHTML) : null
+  const store = createStore(rootReducer, initialState)
 
   const history = syncHistoryWithStore(browserHistory, store)
   match({routes, history}, (_, redirectLocation, renderProps) => {
@@ -39,15 +36,7 @@ export default (locals, callback) => {
   const scripts = assets.filter((asset) => /\.jsx?$/.test(asset))
   const stylesheets = assets.filter((asset) => /\.css$/.test(asset))
 
-  const store = createStore(
-    combineReducers(Object.assign({},
-      reducers, {
-        routing: routerReducer
-      }
-    )),
-    initialState
-  )
-
+  const store = createStore(rootReducer)
   const history = syncHistoryWithStore(createMemoryHistory(), store)
   const location = history.createLocation(locals.path)
 
@@ -72,6 +61,8 @@ export default (locals, callback) => {
       </Provider>
     )
 
+    const initialState = safeStringify(store.getState())
+
     const title = 'Lourdes Quest'
     const html = ReactDOMServer.renderToStaticMarkup(
       <html lang='en'>
@@ -88,7 +79,7 @@ export default (locals, callback) => {
           <div id='content' dangerouslySetInnerHTML={{__html: content}} />
           <script id='initial-state'
             type='application/json'
-            dangerouslySetInnerHTML={{__html: safeStringify(initialState)}}
+            dangerouslySetInnerHTML={{__html: initialState}}
           />
           {scripts.map((asset, index) => (
             <script key={index} type='text/javascript' src={asset} />

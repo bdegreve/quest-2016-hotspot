@@ -31,7 +31,7 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        loader: ExtractTextPlugin.extract('style', 'css!less')
+        loader: ExtractTextPlugin.extract('style', 'css?localIdentName=[local]-[hash:base64:5]!less')
       },
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,

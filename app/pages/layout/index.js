@@ -1,7 +1,9 @@
 import React from 'react'
 
+import style from './style.less'
+
 export default ({children}) => (
-  <main>
+  <main className={style.main}>
     {children}
   </main>
 )

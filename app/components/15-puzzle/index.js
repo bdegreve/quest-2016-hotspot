@@ -1,16 +1,24 @@
 import React from 'react'
 import FlipMove from 'react-flip-move'
 
-import style from './style.less'
+import styles from './style.less'
 
 // classes instead of pure functions because react-flip-move demands it.
 
 class Tile extends React.Component {
   render () {
-    const {value, onClick} = this.props
+    const {value, onClick, size} = this.props
+    const style = {
+      width: size + 'px',
+      height: size + 'px',
+      lineHeight: size + 'px',
+      fontSize: Math.floor(size / 2) + 'px',
+      borderRadius: Math.floor(size / 20) + 'px'
+    }
+
     return value
-      ? <div className={style.tile} onClick={onClick}>{value}</div>
-      : <div className={style.square} />
+      ? <div className={styles.tile} onClick={onClick} style={style}>{value}</div>
+      : <div style={style} />
   }
 }
 
@@ -21,14 +29,20 @@ Tile.propTypes = {
 
 class FifteenPuzzle extends React.Component {
   render () {
-    const {tiles, onTileClick} = this.props
+    const {size, tiles, onTileClick} = this.props
+    const style = {
+      width: size,
+      height: size
+    }
+
     return (
-      <FlipMove duration={150} className={style.container}>
+      <FlipMove duration={150} className={styles.container} style={style}>
           {tiles.map(({value}) => (
             <Tile
               key={value}
               value={value}
-              onClick={() => onTileClick(value)} />
+              onClick={() => onTileClick(value)}
+              size={Math.floor(size / 4)} />
           ))}
       </FlipMove>
     )

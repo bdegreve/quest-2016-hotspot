@@ -7,20 +7,22 @@ sudo apt-get update
 
 # what the hell! https://www.raspberrypi.org/forums/viewtopic.php?f=66&t=119410
 # alternative isc-dhcp-client seems to be installed already
-sudo apt-get purge -y dhcpcd5
+sudo apt-get remove -y dhcpcd5
 
 sudo apt-get install -y hostapd dnsmasq isc-dhcp-client nginx dnsutils git
 
+sudo cp /etc/hosts /etc/hosts.old
 sudo patch /etc/hosts << EOF
 @@ -3,4 +3,5 @@
- ff02::1                ip6-allnodes
- ff02::2                ip6-allrouters
+ ff02::1	ip6-allnodes
+ ff02::2 	ip6-allrca outers
 
 -127.0.1.1      raspberrypi
-+127.0.1.1      degraal degraal.ksadegraal.be
++127.0.1.1      degraal
 +168.192.1.36    git.chateau.bramz.net
 EOF
 
+sudo cp /etc/network/interfaces /etc/network/interfaces.old
 sudo patch /etc/network/interfaces << EOF
 @@ -9,12 +9,11 @@
  auto lo
@@ -99,6 +101,7 @@ log-dhcp
 log-facility=/var/log/dnsmasq.log
 EOF
 
+sudo cp /etc/resolvconf.conf /etc/resolvconf.conf.old
 sudo patch /etc/resolvconf.conf << EOF
 @@ -11,3 +11,7 @@
  dnsmasq_resolv=/var/run/dnsmasq/resolv.conf
@@ -109,6 +112,9 @@ sudo patch /etc/resolvconf.conf << EOF
 +# local dns server is for clients on wlan0
 +name_server_blacklist=127.0.0.1
 EOF
+
+
+# --- HOSTAPD
 
 sudo mkdir -p /etc/hostapd 
 sudo tee /etc/hostapd/hostapd.conf << EOF
@@ -127,6 +133,7 @@ wpa_pairwise=TKIP
 rsn_pairwise=CCMP
 EOF
 
+sudo cp /etc/default/hostapd /etc/default/hostapd.old
 sudo patch /etc/default/hostapd << EOF
 @@ -7,7 +7,7 @@
  # file and hostapd will be started during system boot. An example configuration
@@ -139,11 +146,47 @@ sudo patch /etc/default/hostapd << EOF
  #      -d   show more debug messages (-dd for even more)
 EOF
 
+
+# PATCHED HOSTAPD
+
 wget http://adafruit-download.s3.amazonaws.com/adafruit_hostapd_14128.zip
 unzip adafruit_hostapd_14128.zip
 sudo mv /usr/sbin/hostapd /usr/sbin/hostapd.orig
 sudo mv hostapd /usr/sbin
+sudo chown root:root /usr/sbin/hostapd
 sudo chmod 755 /usr/sbin/hostapd
+
+
+
+# --- CONFIGURING NGINX
+# http://serverfault.com/questions/679393/captive-portal-popups-the-definitive-guide
+
+sudo tee /etc/nginx/sites-available/degraal << EOF
+server {
+	listen 80;
+	listen [::]:80;
+
+	server_name quest.ksadegraal.be;
+
+	root /home/pi/www;
+	index index.html;
+
+	location / {
+		try_files $uri $uri/ =404;
+	}
+
+  location /generate_204 {
+    return 302 http://quest.ksadegraal.be
+  }
+
+}
+EOF
+sudo rm /etc/nginx/sites-enabled/default
+sudo ln -s /etc/nginx/sites-available/degraal /etc/nginx/sites-enabled/degraal
+
+
+
+# --- finally, set hostname and reboot
 
 sudo hostnamectl set-hostname degraal
 sudo reboot

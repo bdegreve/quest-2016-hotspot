@@ -36,7 +36,7 @@ class FifteenPuzzle extends React.Component {
     }
 
     return (
-      <FlipMove duration={150} className={styles.container} style={style}>
+      <FlipMove duration={75} className={styles.container} style={style}>
           {tiles.map(({value}) => (
             <Tile
               key={value}

@@ -2,6 +2,9 @@ import React from 'react'
 import Dimensions from 'react-dimensions'
 
 import Puzzle from 'containers/15-puzzle'
+import Timer from 'components/timer'
+
+import style from './style.less'
 
 const PuzzleWrapper = Dimensions()(
   class extends React.Component {
@@ -13,4 +16,10 @@ const PuzzleWrapper = Dimensions()(
   }
 )
 
-export default PuzzleWrapper
+const since = Date.now()
+
+export default () =>
+  <div className={style.wrapper}>
+    <Timer since={since} />
+    <PuzzleWrapper />
+  </div>

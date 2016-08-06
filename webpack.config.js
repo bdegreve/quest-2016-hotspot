@@ -1,6 +1,11 @@
 var path = require('path')
+var webpack = require("webpack")
+var autoprefixer = require('autoprefixer')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin')
+
+var DEBUG = process.env.node_env !== 'production'
+console.log('DEBUG:', DEBUG)
 
 module.exports = {
   entry: {
@@ -8,12 +13,14 @@ module.exports = {
       './app/app.js'
     ]
   },
+  debug: DEBUG,
   output: {
     path: path.resolve('dist'),
     filename: '[name]-[hash].js',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
+    pathinfo: DEBUG
   },
-  devtool: '#source-map',
+  devtool: DEBUG ? '#eval-source-map' : '#source-map',
   module: {
     preLoaders: [
       {
@@ -31,26 +38,10 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        loader: ExtractTextPlugin.extract('style', 'css?localIdentName=[local]-[hash:base64:5]!less')
+        loader: ExtractTextPlugin.extract('style', 'css?localIdentName=[local]-[hash:base64:5]!postcss!less')
       },
       {
-        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'file'
-      },
-      {
-        test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'file'
-      },
-      {
-        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-        lloader: 'file'
-      },
-      {
-        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'file'
-      },
-      {
-        test: /\.(png|jpg|jpeg)$/,
+        test: /\.(png|jpg|jpeg|eot|ttf|svg|woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'file'
       }
     ]
@@ -58,7 +49,10 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin('[name]-[hash].css'),
     new StaticSiteGeneratorPlugin('main', ['/'])
-  ],
+  ].concat(DEBUG ? [] : [
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin()
+  ]),
   resolve: {
     root: path.resolve('./app'),
     extensions: ['', '.js'],
@@ -66,5 +60,13 @@ module.exports = {
       'node_modules',
       'web_modules' // because https://github.com/webpack/webpack-dev-server/issues/60
     ]
-  }
+  },
+  postcss: [
+    autoprefixer({
+      browsers: [
+        'last 2 versions', 
+        '> 0.1%',
+        'android > 4']
+    })
+  ]
 }

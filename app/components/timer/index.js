@@ -11,11 +11,14 @@ export default class Timer extends React.Component {
 
   render () {
     const elapsed = Date.now() - this.props.since
-    return <TimeDelta millis={elapsed} />
+    return <TimeDelta millis={elapsed} {...this.props} />
   }
 }
 
-const TimeDelta = ({millis}) => <p>{_timeString(millis)}</p>
+const TimeDelta = ({millis, className, style}) =>
+  <p className={className} style={style}>
+    {_timeString(millis)}
+  </p>
 
 function _timeString (millis) {
   millis = millis | 0

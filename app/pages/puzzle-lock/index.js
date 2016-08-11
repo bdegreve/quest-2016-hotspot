@@ -3,15 +3,18 @@ import Dimensions from 'react-dimensions'
 
 import Puzzle from 'containers/15-puzzle'
 import Timer from 'components/timer'
+import GroupSelect from 'components/group-select'
 
 import style from './style.less'
 
-const PuzzleWrapper = Dimensions()(
+const PuzzleWrapper = Dimensions({
+  className: style.child
+})(
   class extends React.Component {
     render () {
       const { containerWidth, containerHeight } = this.props
       const size = Math.min(containerWidth, containerHeight)
-      return <Puzzle size={size} />
+      return <Puzzle size={size} {...this.props} />
     }
   }
 )
@@ -20,6 +23,9 @@ const since = Date.now()
 
 export default () =>
   <div className={style.wrapper}>
-    <Timer since={since} />
-    <PuzzleWrapper />
+    <GroupSelect className={style.select} />
+    <Timer since={since} className={style.timer} />
+    <div className={style.puzzle}>
+      <PuzzleWrapper />
+    </div>
   </div>

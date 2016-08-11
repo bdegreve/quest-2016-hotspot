@@ -1,6 +1,41 @@
 :local {
   .wrapper {
-    height: 100%;
     width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: powderblue;
+  }
+
+  .timer, .select {
+    width: 100%;
+    height: 50px;
+    flex-grow: 0;
+    font-size: 40px;
+  }
+
+  .timer {
+    background-color: lightcoral;
+    margin: 5px 0;
+  }
+
+  .select {
+    background-color: lightseagreen;
+  }
+
+  .puzzle {
+    width: 100%;
+    flex-grow: 1;
+    background-color: lightgreen;
+    position: relative;
+  }
+
+  .child {
+    width: 100%;
+    height: 100%;
+    position: absolute !important;
+    background-color: goldenrod;
   }
 }

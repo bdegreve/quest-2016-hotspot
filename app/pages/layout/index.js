@@ -3,7 +3,7 @@ import React from 'react'
 import style from './style.less'
 
 export default ({children}) => (
-  <main className={style.main}>
+  <div className={style.main}>
     {children}
-  </main>
+  </div>
 )

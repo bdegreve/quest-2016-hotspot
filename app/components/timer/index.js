@@ -1,5 +1,7 @@
 import React from 'react'
 
+import style from './style.less'
+
 export default class Timer extends React.Component {
   componentDidMount () {
     this.forceUpdateInterval = setInterval(() => this.forceUpdate(), 50)
@@ -11,14 +13,14 @@ export default class Timer extends React.Component {
 
   render () {
     const elapsed = Date.now() - this.props.since
-    return <TimeDelta millis={elapsed} {...this.props} />
+    return <div className={style.wrapper}>
+      <TimeDelta millis={elapsed} />
+    </div>
   }
 }
 
-const TimeDelta = ({millis, className, style}) =>
-  <p className={className} style={style}>
-    {_timeString(millis)}
-  </p>
+const TimeDelta = ({millis}) =>
+  <p className={style.timer}>{_timeString(millis)}</p>
 
 function _timeString (millis) {
   millis = millis | 0

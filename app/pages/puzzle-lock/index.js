@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux'
+
 import Dimensions from 'react-dimensions'
 
 import Puzzle from 'containers/15-puzzle'
@@ -12,8 +14,13 @@ const PuzzleWrapper = Dimensions({
 })(
   class extends React.Component {
     render () {
-      const { containerWidth, containerHeight } = this.props
+      const { containerWidth, containerHeight, group } = this.props
       const size = Math.min(containerWidth, containerHeight)
+      if (!group) {
+        return <p style={{width: size, height: size}}>
+          Selecteer je groep...
+        </p>
+      }
       return <Puzzle size={size} {...this.props} />
     }
   }
@@ -21,7 +28,7 @@ const PuzzleWrapper = Dimensions({
 
 const since = Date.now()
 
-export default () =>
+const View = ({groups}) =>
   <div className={style.wrapper}>
     <div className={style.select}>
       <GroupSelect />
@@ -30,6 +37,8 @@ export default () =>
       <Timer since={since} />
     </div>
     <div className={style.puzzle}>
-      <PuzzleWrapper />
+      <PuzzleWrapper group={groups.selected} />
     </div>
   </div>
+
+export default connect((state) => state)(View)

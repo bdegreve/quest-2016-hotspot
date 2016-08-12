@@ -1,9 +1,13 @@
 import React from 'react'
 
-export default (props) =>
-  <select {...props}>
-    <option>KSA jongens</option>
-    <option>KSA meisjes</option>
-    <option>KSA met donkerblauwe hemden</option>
-    <option>KSA zonder hemden</option>
+export default ({groups, selected, onSelect}) =>
+  <select
+    value={selected || ''}
+    onChange={(ev) => onSelect(ev.target.value)}
+  >
+    {groups.map((group, index) =>
+      <option key={index} value={index}>
+        {group}
+      </option>
+    )}
   </select>

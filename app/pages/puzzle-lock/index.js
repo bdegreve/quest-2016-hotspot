@@ -3,7 +3,7 @@ import Dimensions from 'react-dimensions'
 
 import Puzzle from 'containers/15-puzzle'
 import Timer from 'components/timer'
-import GroupSelect from 'components/group-select'
+import GroupSelect from 'containers/group-select'
 
 import style from './style.less'
 

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 
-import View from 'components/group-select'
+import View from 'components/select'
 
 const mapStateToProps = (state) => state.groups
 

@@ -1,10 +1,10 @@
 var path = require('path')
-var webpack = require("webpack")
+var webpack = require('webpack')
 var autoprefixer = require('autoprefixer')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin')
 
-var DEBUG = process.env.node_env !== 'production'
+var DEBUG = process.env.NODE_ENV !== 'production'
 console.log('DEBUG:', DEBUG)
 
 module.exports = {
@@ -64,7 +64,7 @@ module.exports = {
   postcss: [
     autoprefixer({
       browsers: [
-        'last 2 versions', 
+        'last 2 versions',
         '> 0.1%',
         'android > 4']
     })

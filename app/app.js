@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ReactDOMServer from 'react-dom/server'
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { Router, RouterContext, browserHistory, match, createMemoryHistory } from 'react-router'
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
+import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-router-redux'
 
 import routes from './routes'
 import reducers from './reducers'
@@ -17,7 +17,8 @@ const rootReducer = combineReducers(Object.assign({}, reducers, {
 if (typeof document !== 'undefined') {
   const initialStateElement = document.getElementById('initial-state')
   const initialState = initialStateElement ? JSON.parse(initialStateElement.innerHTML) : null
-  const store = createStore(rootReducer, initialState)
+  const middleware = routerMiddleware(browserHistory)
+  const store = createStore(rootReducer, initialState, applyMiddleware(middleware))
 
   const history = syncHistoryWithStore(browserHistory, store)
   match({routes, history}, (_, redirectLocation, renderProps) => {

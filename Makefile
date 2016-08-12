@@ -11,7 +11,8 @@ node_modules: package.json npm-shrinkwrap.json
 	npm install
 
 clean:
-	npm prune	rm -rf build
+	npm prune
+	rm -rf build
 	rm -rf dist
 
 distclean: clean

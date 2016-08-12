@@ -23,7 +23,9 @@ const since = Date.now()
 
 export default () =>
   <div className={style.wrapper}>
-    <GroupSelect className={style.select} />
+    <div className={style.select}>
+      <GroupSelect />
+    </div>
     <div className={style.timer}>
       <Timer since={since} />
     </div>

@@ -1,0 +1,21 @@
+{
+  "name": "quest-lourdes-backend",
+  "version": "1.0.0",
+  "description": "Backend server of final puzzle for Lourdes Quest",
+  "main": "server.js",
+  "scripts": {
+    "test": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.chateau.bramz.net/Bramz/quest-lourdes-drop.git"
+  },
+  "author": "Bram de Greve <bram.degreve@bramz.net>",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "4.14.0"
+  },
+  "devDependencies": {
+    "standard": "7.1.2"
+  }
+}

@@ -9,7 +9,7 @@ sudo apt-get update
 # alternative isc-dhcp-client seems to be installed already
 sudo apt-get remove -y dhcpcd5
 
-sudo apt-get install -y hostapd dnsmasq isc-dhcp-client nginx dnsutils git
+sudo apt-get install -y hostapd dnsmasq isc-dhcp-client nginx dnsutils git nodejs-legacy npm
 
 sudo cp /etc/hosts /etc/hosts.old
 sudo patch /etc/hosts << EOF
@@ -157,11 +157,28 @@ sudo chown root:root /usr/sbin/hostapd
 sudo chmod 755 /usr/sbin/hostapd
 
 
+# BACKEND SERVER
+
+cd ~
+git clone https://git.chateau.bramz.net/Bramz/quest-lourdes-drop.git
+cd quest-lourdes-drop/backend
+make
+
 
 # --- CONFIGURING NGINX
 # http://serverfault.com/questions/679393/captive-portal-popups-the-definitive-guide
 
 sudo tee /etc/nginx/sites-available/degraal << EOF
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	listen 443 ssl default_server;
+	listen [::]:443 ssl default_server;
+
+	return 307 http://quest.ksadegraal.be;
+}
+
 server {
 	listen 80;
 	listen [::]:80;
@@ -175,10 +192,9 @@ server {
 		try_files $uri $uri/ =404;
 	}
 
-  location /generate_204 {
-    return 302 http://quest.ksadegraal.be
-  }
-
+	location /api/ {
+		proxy_pass http://localhost:3000/;
+	}
 }
 EOF
 sudo rm /etc/nginx/sites-enabled/default

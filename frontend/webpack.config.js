@@ -10,6 +10,7 @@ console.log('DEBUG:', DEBUG)
 module.exports = {
   entry: {
     main: [
+      'babel-polyfill',
       './app/app.js'
     ]
   },

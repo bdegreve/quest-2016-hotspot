@@ -12,7 +12,7 @@ install: node_modules
 	systemctl daemon-reload # is this required?
 	systemctl start quest-api
 
-node_modules: package.json
+node_modules: package.json npm-shrinkwrap.json
 	npm install
 
 clean:

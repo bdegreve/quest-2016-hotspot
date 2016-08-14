@@ -1,0 +1,22 @@
+[Unit]
+Description=Quest API (Lourdes Quest backend service)
+After=syslog.target
+After=network.target
+
+[Service]
+# Modify these two values and uncomment them if you have
+# repos with lots of files and get an HTTP error 500 because
+# of that
+###
+#LimitMEMLOCK=infinity
+#LimitNOFILE=65535
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/quest-lourdes-drop/backend
+ExecStart=/usr/bin/npm start
+Restart=always
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

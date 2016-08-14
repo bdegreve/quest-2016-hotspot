@@ -9,14 +9,12 @@ import GroupSelect from 'containers/group-select'
 
 import style from './style.less'
 
-const PuzzleWrapper = Dimensions({
-  className: style.child
-})(
+const PuzzleWrapper = Dimensions()(
   class extends React.Component {
     render () {
-      const { containerWidth, containerHeight, group } = this.props
+      const { containerWidth, containerHeight, hasGroup } = this.props
       const size = Math.min(containerWidth, containerHeight)
-      if (!group) {
+      if (!hasGroup) {
         return <p style={{width: size, height: size}}>
           Selecteer je groep...
         </p>
@@ -37,7 +35,9 @@ const View = ({groups}) =>
       <Timer since={since} />
     </div>
     <div className={style.puzzle}>
-      <PuzzleWrapper group={groups.selected} />
+      <div className={style.child}>
+        <PuzzleWrapper hasGroup={groups.selected} />
+      </div>
     </div>
   </div>
 

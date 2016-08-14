@@ -29,6 +29,19 @@ Tile.propTypes = {
   onClick: React.PropTypes.func.isRequired
 }
 
+const Animated = ({children, className, style}) =>
+  window && window.requestAnimationFrame
+  ? (
+    <FlipMove duration={75} className={className} style={style}>
+      {children}
+    </FlipMove>
+  )
+  : (
+    <div className={className} style={style}>
+      {children}
+    </div>
+  )
+
 class FifteenPuzzle extends React.Component {
   render () {
     const {size, tiles, onTileClick} = this.props
@@ -38,7 +51,7 @@ class FifteenPuzzle extends React.Component {
     }
 
     return (
-      <FlipMove duration={75} className={styles.container} style={style}>
+      <Animated className={styles.container} style={style}>
         {tiles.map(({value}, index) => (
           <Tile
             key={value}
@@ -47,7 +60,7 @@ class FifteenPuzzle extends React.Component {
             onClick={() => onTileClick(value)}
             size={Math.floor(size / 4)} />
         ))}
-      </FlipMove>
+      </Animated>
     )
   }
 }

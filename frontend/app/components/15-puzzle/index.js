@@ -7,8 +7,10 @@ import styles from './style.less'
 
 class Tile extends React.Component {
   render () {
-    const {value, onClick, size} = this.props
+    const {value, onClick, size, index} = this.props
     const style = {
+      top: (size * Math.floor(index / 4)) + 'px',
+      left: (size * (index % 4)) + 'px',
       width: size + 'px',
       height: size + 'px',
       lineHeight: size + 'px',
@@ -37,13 +39,14 @@ class FifteenPuzzle extends React.Component {
 
     return (
       <FlipMove duration={75} className={styles.container} style={style}>
-          {tiles.map(({value}) => (
-            <Tile
-              key={value}
-              value={value}
-              onClick={() => onTileClick(value)}
-              size={Math.floor(size / 4)} />
-          ))}
+        {tiles.map(({value}, index) => (
+          <Tile
+            key={value}
+            value={value}
+            index={index}
+            onClick={() => onTileClick(value)}
+            size={Math.floor(size / 4)} />
+        ))}
       </FlipMove>
     )
   }

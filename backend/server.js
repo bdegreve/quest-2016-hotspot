@@ -1,22 +1,55 @@
+var path = require('path')
 var express = require('express')
+var bodyParser = require('body-parser')
+var low = require('lowdb')
+var fileAsync = require('lowdb/lib/file-async')
+
+var db = low(path.join(__dirname, 'db.json'), {
+  storage: fileAsync
+})
+
+db.defaults({ 
+  started: Date.now(),
+  players: [] }
+)
 
 var app = express()
 
 app.set('port', (process.env.PORT || 3000))
+app.use(bodyParser.json());
 
 app.get('/timer', function (req, res) {
   res.setHeader('Cache-Control', 'no-cache')
   res.json({
+    started: db.get('started').value(),
     now: Date.now()
   })
 })
 
-app.get('/groups', function (req, res) {
-
+app.get('/players', function (req, res) {
+  res.setHeader('Cache-Control', 'no-cache')
+  res.json({
+    players: db.get('players').value()
+  })
 })
 
-app.post('/group', function  (req, res) {
+app.post('players/stop-the-clock', function  (req, res) {
+  res.setHeader('Cache-Control', 'no-cache')
+
+  var player = db.get('posts')
+    .find({name: req.body.name})
+    .value()
+
+  if (!player.stopped) {
+    player = db.get('posts')
+      .find({name: req.body.name})
+      .assign({stopped: Date.now()})
+      .value()
+  }
   
+  res.json({
+    player: player
+  })
 })
 
 app.listen(app.get('port'), function () {

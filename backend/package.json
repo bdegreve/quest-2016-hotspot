@@ -4,7 +4,8 @@
   "description": "Backend server of final puzzle for Lourdes Quest",
   "main": "server.js",
   "scripts": {
-    "test": "standard"
+    "test": "standard",
+    "set-start-time": "node set-start-time.js"
   },
   "repository": {
     "type": "git",
@@ -13,7 +14,10 @@
   "author": "Bram de Greve <bram.degreve@bramz.net>",
   "license": "UNLICENSED",
   "dependencies": {
-    "express": "4.14.0"
+    "body-parser": "1.15.2",
+    "express": "4.14.0",
+    "lodash": "4.15.0",
+    "lowdb": "0.13.1"
   },
   "devDependencies": {
     "standard": "7.1.2"

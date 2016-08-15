@@ -31,6 +31,25 @@ export default function (state = INITIAL_STATE, action) {
       }
       return state
 
+    case 'UPDATE_PLAYER':
+      if (action.value) {
+        console.log('action.value:', action.value)
+        const player = action.value
+        const {players} = state
+        const index = players.findIndex((p) => p.name === player.name)
+        if (index < 0) {
+          return state
+        }
+        return Object.assign({}, state, {
+          players: [
+            ...players.slice(0, index),
+            player,
+            ...players.slice(index + 1)
+          ]
+        })
+      }
+      return state
+
     default:
       return state
   }

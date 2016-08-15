@@ -2,12 +2,22 @@ const MOVE_TILE = 'MOVE_TILE'
 const N = 4
 
 // Melencolia I ;-)
+
+/*
 const INITIAL = [
   null, 3, 2, 13,
   5, 10, 11, 8,
   9, 6, 7, 12,
   4, 15, 14, 1
 ]
+/*/
+const INITIAL = [
+  1, 2, 3, 4,
+  5, 6, 7, 8,
+  9, 10, 11, 12,
+  13, 14, null, 15
+]
+/**/
 
 export const initialState = {
   tiles: INITIAL.map((value) => ({

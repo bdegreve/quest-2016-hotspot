@@ -19,8 +19,9 @@ export default function (state = INITIAL_STATE, action) {
       }
       return state
 
-    case 'LOAD_PLAYERS':
+    case 'SET_PLAYERS':
       if (action.value) {
+        console.log('SET_PLAYERS', action.value)
         const players = [
           ...INITIAL_STATE.players,
           ...action.value.players]
@@ -33,7 +34,7 @@ export default function (state = INITIAL_STATE, action) {
 
     case 'UPDATE_PLAYER':
       if (action.value) {
-        console.log('action.value:', action.value)
+        console.log('UPDATE_PLAYER:', action.value)
         const player = action.value
         const {players} = state
         const index = players.findIndex((p) => p.name === player.name)

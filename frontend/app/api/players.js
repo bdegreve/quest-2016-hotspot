@@ -6,7 +6,7 @@ export default () => {
   .then((res) => res.data)
   .then((data) => {
     store.dispatch({
-      type: 'LOAD_PLAYERS',
+      type: 'SET_PLAYERS',
       value: data
     })
     return data

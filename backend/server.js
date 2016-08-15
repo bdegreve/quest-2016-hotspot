@@ -36,12 +36,10 @@ app.get('/players', function (req, res) {
 app.post('/players/stop-the-clock', function  (req, res) {
   res.setHeader('Cache-Control', 'no-cache')
 
-  console.log(req.body)
   var player = db.get('players')
     .find({name: req.body.name})
     .value()
   
-  console.log('player', player)
   if (!player.stopped) {
     player = db.get('players')
       .find({name: req.body.name})
@@ -50,7 +48,7 @@ app.post('/players/stop-the-clock', function  (req, res) {
   }
   
   res.json({
-    player: player
+    players: db.get('players').value()
   })
 })
 

@@ -11,7 +11,6 @@ import style from './style.less'
 
 class Layout extends React.Component {
   componentWillReceiveProps (nextProps) {
-    console.log('been here')
     if (nextProps.unlocked && !this.props.unlocked) {
       const {selected, players} = this.props.players
       if (selected > 0 && selected < players.length) {

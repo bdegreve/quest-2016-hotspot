@@ -2,7 +2,20 @@ import React from 'react'
 
 import style from './style.less'
 
-export default class Timer extends React.Component {
+export default ({timer, players}) => {
+  const stopped = checkStopped(players)
+  return <Timer {...timer} stopped={stopped} />
+}
+
+function checkStopped({selected, players}) {
+  if (selected > 0 && selected < players.length) {
+    const player = players[selected]
+    return player.stopped 
+  }
+  return null
+}
+
+class Timer extends React.Component {
   componentDidMount () {
     this.forceUpdateInterval = setInterval(() => this.forceUpdate(), 50)
   }
@@ -12,8 +25,9 @@ export default class Timer extends React.Component {
   }
 
   render () {
-    const { started } = this.props
-    const elapsed = started ? (Date.now() - started) : null
+    const { started, stopped } = this.props
+    const now = stopped ? stopped : Date.now()
+    const elapsed = started ? (now - started) : null
     return <div className={style.wrapper}>
       <TimeDelta millis={elapsed} />
     </div>

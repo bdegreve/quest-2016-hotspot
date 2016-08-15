@@ -5,5 +5,5 @@ import View from 'components/timer'
 const mapStateToProps = (state) => state.timer
 
 export default connect(
-  mapStateToProps,
+  mapStateToProps
 )(View)

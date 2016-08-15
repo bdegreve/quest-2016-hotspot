@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.get('/timer', function (req, res) {
   res.setHeader('Cache-Control', 'no-cache')
   res.json({
-    started: db.get('started').value(),
+    started: new Date(db.get('started').value()).getTime(),
     now: Date.now()
   })
 })

@@ -1,14 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ReactDOMServer from 'react-dom/server'
-import { createStore, combineReducers } from 'redux'
 import { Provider } from 'react-redux'
 
 import Layout from 'pages/layout'
 import store from './store'
 import './app.less'
 
+import timer from 'api/timer'
+
 if (typeof document !== 'undefined') {
+  timer()
   ReactDOM.render(
     <Provider store={store}>
       <Layout />

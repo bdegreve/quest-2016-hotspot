@@ -12,7 +12,8 @@ export default class Timer extends React.Component {
   }
 
   render () {
-    const elapsed = Date.now() - this.props.since
+    const { started } = this.props
+    const elapsed = started ? (Date.now() - started) : null
     return <div className={style.wrapper}>
       <TimeDelta millis={elapsed} />
     </div>
@@ -23,6 +24,9 @@ const TimeDelta = ({millis}) =>
   <p className={style.timer}>{_timeString(millis)}</p>
 
 function _timeString (millis) {
+  if (millis === null) {
+    return '...'
+  }
   millis = millis | 0
   let secs = (millis / 1000) | 0
   let mins = (secs / 60) | 0

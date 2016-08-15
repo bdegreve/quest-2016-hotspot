@@ -5,7 +5,7 @@ export default () =>
   axios.get('/api/timer')
   .then((res) => {
     store.dispatch({
-      type: 'GET_USERS',
+      type: 'SET_STARTED',
       users: res.data
     });
     return res

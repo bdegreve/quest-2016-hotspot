@@ -3,18 +3,12 @@ import ReactDOM from 'react-dom'
 import ReactDOMServer from 'react-dom/server'
 import { createStore, combineReducers } from 'redux'
 import { Provider } from 'react-redux'
-import Layout from 'pages/layout'
 
-import reducers from './reducers'
+import Layout from 'pages/layout'
+import store from './store'
 import './app.less'
 
-const rootReducer = combineReducers(reducers)
-
 if (typeof document !== 'undefined') {
-  const initialStateElement = document.getElementById('initial-state')
-  const initialState = initialStateElement ? JSON.parse(initialStateElement.innerHTML) : null
-  const store = createStore(rootReducer, initialState)
-
   ReactDOM.render(
     <Provider store={store}>
       <Layout />
@@ -28,8 +22,6 @@ export default (locals, callback) => {
   const assets = getAssetPaths(locals.webpackStats, 'main') // same main as in webpack.config.js' entry
   const scripts = assets.filter((asset) => /\.jsx?$/.test(asset))
   const stylesheets = assets.filter((asset) => /\.css$/.test(asset))
-
-  const store = createStore(rootReducer)
 
   // don't render everything with renderToString.
   // see http://jeffhandley.github.io/QuickReactions/20-final-cleanup

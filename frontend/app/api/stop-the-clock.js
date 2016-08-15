@@ -5,9 +5,10 @@ export default (player) => {
   return axios.post('/api/players/stop-the-clock', player)
   .then((res) => res.data)
   .then((data) => {
+    console.log('stopped the clock', data)
     store.dispatch({
       type: 'UPDATE_PLAYER',
-      value: data
+      value: data.player
     })
     return data
   })

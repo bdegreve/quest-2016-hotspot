@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import PuzzleLock from 'pages/puzzle-lock'
 import HolyGrail from 'pages/holy-grail'
 
-const View = ({unlocked}) => unlocked
+const View = ({unlocked}) => !unlocked
   ? <HolyGrail />
   : <PuzzleLock />
 

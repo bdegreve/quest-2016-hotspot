@@ -42,7 +42,7 @@ module.exports = {
         loader: ExtractTextPlugin.extract('style', 'css?localIdentName=[local]-[hash:base64:5]!postcss!less')
       },
       {
-        test: /\.(png|jpg|jpeg|eot|ttf|svg|woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+        test: /\.(png|jpg|jpeg|eot|ttf|svg|woff|woff2|mp4|webm|ogv)(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'file'
       }
     ]

@@ -1,6 +1,8 @@
-all: node_modules
-	npm run build
+HOST = pi@10.42.0.69
 
+all: node_modules
+	NODE_ENV=production npm run build
+	
 run: node_modules
 	npm start
 
@@ -9,6 +11,9 @@ check: node_modules
 
 node_modules: package.json npm-shrinkwrap.json
 	npm install
+	
+install: all
+	scp dist/* $(HOST):www/
 
 clean:
 	npm prune

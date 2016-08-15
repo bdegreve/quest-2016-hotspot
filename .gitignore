@@ -2,3 +2,5 @@ node_modules/
 dist/
 *.log
 db.json
+*.mp4
+*.webm

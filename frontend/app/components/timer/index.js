@@ -4,15 +4,27 @@ import style from './style.less'
 
 export default ({timer, players}) => {
   const stopped = checkStopped(players)
-  return <Timer {...timer} stopped={stopped} />
+  return <Timer {...timer} {...stopped} />
 }
 
-function checkStopped({selected, players}) {
-  if (selected > 0 && selected < players.length) {
-    const player = players[selected]
-    return player.stopped 
+function checkStopped ({selected, players}) {
+  if (selected < 1 || selected >= players.length) {
+    return null
   }
-  return null
+  const player = players[selected]
+  if (!player.stopped) {
+    return null
+  }
+  const ranking = players.reduce((rank, p) => {
+    if (p.name !== player.name && p.stopped && p.stopped < player.stopped) {
+      return rank + 1
+    }
+    return rank
+  }, 1)
+  return {
+    stopped: player.stopped,
+    ranking
+  }
 }
 
 class Timer extends React.Component {
@@ -25,13 +37,24 @@ class Timer extends React.Component {
   }
 
   render () {
-    const { started, stopped } = this.props
-    const now = stopped ? stopped : Date.now()
+    const { started, stopped, ranking } = this.props
+    const now = stopped || Date.now()
     const elapsed = started ? (now - started) : null
     return <div className={style.wrapper}>
       <TimeDelta millis={elapsed} />
+      <Ranking ranking={ranking} />
     </div>
   }
+}
+
+const Ranking = ({ranking}) => {
+  if (!ranking) {
+    return null
+  }
+  const ste = ranking > 1 ? 'de' : 'ste'
+  return <p className={style.ranking}>
+    {`Jullie zijn de ${ranking}${ste} in dag rankschikking`}
+  </p>
 }
 
 const TimeDelta = ({millis}) =>

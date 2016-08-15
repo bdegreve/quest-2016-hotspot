@@ -4,7 +4,8 @@ const INITIAL_STATE = {
     {
       name: 'Selecteer je groep ...'
     }
-  ]
+  ],
+  loaded: false
 }
 
 export default function (state = INITIAL_STATE, action) {
@@ -24,7 +25,8 @@ export default function (state = INITIAL_STATE, action) {
           ...INITIAL_STATE.players,
           ...action.value.players]
         return Object.assign({}, state, {
-          players
+          players,
+          loaded: true
         })
       }
       return state

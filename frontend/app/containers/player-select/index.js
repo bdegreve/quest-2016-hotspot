@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 
-import View from 'components/select'
+import View from 'components/player-select'
 
 const mapStateToProps = (state) => state.players
 

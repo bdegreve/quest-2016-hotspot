@@ -5,7 +5,7 @@ import Dimensions from 'react-dimensions'
 
 import Puzzle from 'containers/15-puzzle'
 import Timer from 'containers/timer'
-import GroupSelect from 'containers/group-select'
+import PlayerSelect from 'containers/player-select'
 
 import style from './style.less'
 
@@ -27,7 +27,7 @@ const PuzzleWrapper = Dimensions()(
 const View = ({players}) =>
   <div className={style.wrapper}>
     <div className={style.select}>
-      <GroupSelect />
+      <PlayerSelect />
     </div>
     <div className={style.timer}>
       <Timer />

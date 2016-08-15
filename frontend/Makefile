@@ -22,3 +22,4 @@ clean:
 
 distclean: clean
 	rm -rf node_modules
+	rm -rf app/media

@@ -4,8 +4,8 @@ import Dimensions from 'react-dimensions'
 
 const View = ({width}) =>
   <video width={width} controls autoPlay>
-    <source src={require('media/filmpje.mp4')} type='video/mp4' />
-    <source src={require('media/filmpje.webm')} type='video/webm' />
+    <source src={require('./filmpje.mp4')} type='video/mp4' />
+    <source src={require('./filmpje.webm')} type='video/webm' />
     Shoot, your browser does not support HTML5 video tag :-(
   </video>
 

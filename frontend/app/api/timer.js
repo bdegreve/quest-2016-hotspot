@@ -12,7 +12,7 @@ export default () =>
       type: 'TIMER_STARTED',
       value: (Date.now() - running)
     })
-    return res
+    return data
   })
   .catch((err) => {
     console.error(err)

@@ -7,10 +7,12 @@ import Layout from 'pages/layout'
 import store from './store'
 import './app.less'
 
-import timer from 'api/timer'
+import getTimer from 'api/timer'
+import getPlayers from 'api/players'
 
 if (typeof document !== 'undefined') {
-  timer()
+  getTimer()
+  getPlayers()
   ReactDOM.render(
     <Provider store={store}>
       <Layout />

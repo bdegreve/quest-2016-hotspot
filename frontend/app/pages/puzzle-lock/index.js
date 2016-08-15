@@ -24,7 +24,7 @@ const PuzzleWrapper = Dimensions()(
   }
 )
 
-const View = ({groups}) =>
+const View = ({players}) =>
   <div className={style.wrapper}>
     <div className={style.select}>
       <GroupSelect />
@@ -34,7 +34,7 @@ const View = ({groups}) =>
     </div>
     <div className={style.puzzle}>
       <div className={style.child}>
-        <PuzzleWrapper hasGroup={groups.selected} />
+        <PuzzleWrapper hasGroup={players.selected} />
       </div>
     </div>
   </div>

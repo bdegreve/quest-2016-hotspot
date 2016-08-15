@@ -1,9 +1,9 @@
 import fifteenPuzzle from './15-puzzle'
-import groups from './groups'
+import players from './players'
 import timer from './timer'
 
 export default {
   '15-puzzle': fifteenPuzzle,
-  groups,
+  players,
   timer
 }

@@ -2,11 +2,11 @@ import { connect } from 'react-redux'
 
 import View from 'components/select'
 
-const mapStateToProps = (state) => state.groups
+const mapStateToProps = (state) => state.players
 
 const mapDispatchToProps = (dispatch) => ({
   onSelect: (value) => dispatch({
-    type: 'SELECT_GROUP',
+    type: 'SELECT_PLAYER',
     value
   })
 })

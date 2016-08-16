@@ -19,7 +19,7 @@ export default ({timer, players}) => {
     return 0
   })
 
-  return <div>
+  return <div className={style.ranking}>
     <h2>Dag rangschikking</h2>
     <ol>
       {stoppedPlayers.map((p) =>

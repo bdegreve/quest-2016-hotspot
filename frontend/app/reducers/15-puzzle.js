@@ -17,7 +17,6 @@ const INITIAL = [
   13, 14, null, 15
 ]
 */
-
 export const initialState = {
   tiles: INITIAL.map((value) => ({
     value

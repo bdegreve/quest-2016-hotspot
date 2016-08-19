@@ -1,4 +1,4 @@
-HOST = pi@10.42.0.69
+HOST = pi@quest.ksadegraal.be
 
 all: node_modules
 	NODE_ENV=production npm run build

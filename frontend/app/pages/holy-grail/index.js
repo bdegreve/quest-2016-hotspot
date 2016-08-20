@@ -8,15 +8,16 @@ import style from './style.less'
 export default () =>
   <div className={style.wrapper}>
     <p className={style.quote}>
-      Waar verstopte Jacomet De Graal?
+      "De Graal dreigt ontmaskerd te worden.<br />
+      In het holst van de nacht verzamelen de Rozenkruisers in de tempel
+      onder het commissariaat.<br />
+      Daar belasten ze Jacomet met de opdracht om de Graal in veiligheid te
+      stellen."
     </p>
     <Video />
-    <p className={style.quote}>
-      Testis unus, testis nullus
-    </p>
     <Ranking />
     <div className={style.ksadegraal}>
       <img src={require('./ksadegraal.png')} />
-      <p>KSA De Graal werft aan! Lorum Ipsum!</p>
+      <p>KSA de Graal werft aan! Meld je aan!</p>
     </div>
   </div>

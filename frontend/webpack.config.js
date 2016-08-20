@@ -56,7 +56,10 @@ module.exports = {
     new StaticSiteGeneratorPlugin('main', ['/'])
   ].concat(DEBUG ? [] : [
     new webpack.optimize.UglifyJsPlugin(),
-    new webpack.optimize.OccurrenceOrderPlugin()
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.DefinePlugin({
+      NODE_ENV: process.env.NODE_ENV
+    })
   ]),
   resolve: {
     root: path.resolve('./app'),

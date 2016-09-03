@@ -117,9 +117,27 @@ Installation
 
 ### Prepare base system
 
-- Download [Raspbian Jessie Lite](https://www.raspberrypi.org/downloads/raspbian/)
+1. Download [Raspbian Jessie Lite](https://www.raspberrypi.org/downloads/raspbian/)
  image and unzip to get an `.img` file. I used 2016-05-10-raspbian-jessie-lite.img
-- Follow the [installation instructions](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md)
+2. Follow the [installation instructions](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md)
  to install the image on an SD card.
-- Boot the Raspberry Pi.
+3. Boot the Raspberry Pi.
+
+### Change default password, and enable passwordless login.
+
+1. **DO** change the default password:
+ ```
+ ssh pi@raspberrypi 'passwd'
+ ```
+ You'll be prompted twice for the current password (it's `raspberry`, just so
+ you know), once to login over SSH, and once to change the password.
+ 
+2. For the installation scripts to properly work, you'll need [passwordless login](https://linuxconfig.org/passwordless-ssh).
+ ```
+ ssh-copy-id pi@raspberrypi
+ ```
+ 
+### Install backend
+
+make
 

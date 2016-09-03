@@ -1,4 +1,4 @@
-HOST = pi@quest.ksadegraal.be
+HOST = pi@raspberrypi
 
 all: node_modules
 	NODE_ENV=production npm run build

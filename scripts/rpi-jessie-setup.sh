@@ -1,7 +1,12 @@
-# based on raspbian jessie lite image, downloaded from
-# https://www.raspberrypi.org/downloads/raspbian/
+# based on raspbian jessie lite image 2016-05-10-raspbian-jessie-lite.img
+# downloaded from https://www.raspberrypi.org/downloads/raspbian/
 
-# see https://learn.adafruit.com/setting-up-a-raspberry-pi-as-a-wifi-access-point/install-software
+# see:
+# - https://learn.adafruit.com/setting-up-a-raspberry-pi-as-a-wifi-access-point/install-software
+# - http://serverfault.com/questions/679393/captive-portal-popups-the-definitive-guide
+
+
+# --- Step 1: let's install some software
 
 sudo apt-get update
 
@@ -11,16 +16,11 @@ sudo apt-get remove -y dhcpcd5
 
 sudo apt-get install -y hostapd dnsmasq isc-dhcp-client nginx dnsutils git nodejs-legacy npm
 
-sudo cp /etc/hosts /etc/hosts.old
-sudo patch /etc/hosts << EOF
-@@ -3,4 +3,5 @@
- ff02::1	ip6-allnodes
- ff02::2 	ip6-allrca outers
 
--127.0.1.1      raspberrypi
-+127.0.1.1      degraal
-+168.192.1.36    git.chateau.bramz.net
-EOF
+# --- Step 2: Fix our network interfaces:
+# - assign static IP 192.168.42.1 on wlan0 for our hotspot
+# - we got rid of dhcpcd5 madness and must do DHCP on eth0 the normal way.
+# - get rid of wlan1, we don't need it.
 
 sudo cp /etc/network/interfaces /etc/network/interfaces.old
 sudo patch /etc/network/interfaces << EOF
@@ -45,16 +45,71 @@ sudo patch /etc/network/interfaces << EOF
 -    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
 EOF
 
-sudo tee /etc/dnsmasq.d/degraal.conf << EOF
-# If you don't want dnsmasq to read /etc/resolv.conf or any other
-# file, getting its servers from this file instead (see below), then
-# uncomment this.
-#no-resolv
 
+# --- Step 3: Configure hostapd, to turn on acces point.
+# - Use at least 8 characters for wpa_passphrase
+# - driver=rtl871xdrv because our wifi modules have realtek chipsets, but YMMV.
+#
+# IF YOU USE ANOTHER DRIVER THAN rtl871xdrv, YOU DON'T WANT TO USE THE PATCHED
+# HOSTAPD (SEE BELOW)
+
+sudo mkdir -p /etc/hostapd 
+sudo tee /etc/hostapd/hostapd.conf << EOF
+interface=wlan0
+driver=rtl871xdrv
+ssid=BernadetteSoubirous
+hw_mode=g
+channel=6
+macaddr_acl=0
+auth_algs=1
+ignore_broadcast_ssid=0
+wpa=2
+wpa_passphrase=jacomet123
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
+rsn_pairwise=CCMP
+EOF
+
+sudo cp /etc/default/hostapd /etc/default/hostapd.old
+sudo patch /etc/default/hostapd << EOF
+@@ -7,7 +7,7 @@
+ # file and hostapd will be started during system boot. An example configuration
+ # file can be found at /usr/share/doc/hostapd/examples/hostapd.conf.gz
+ #
+-#DAEMON_CONF=""
++DAEMON_CONF="/etc/hostapd/hostapd.conf"
+ 
+ # Additional daemon options to be appended to hostapd command:-
+ # 	-d   show more debug messages (-dd for even more)
+EOF
+
+# -- PATCHING HOSTAPD
+# Debian's version of hostapd installed with apt-get install hostapd
+# doesn't support the realteck rtl871xdrv driver.
+# As per https://learn.adafruit.com/setting-up-a-raspberry-pi-as-a-wifi-access-point/install-software
+# we replace it by a patched version
+#
+# remark: this patched version is quite old (version )
+# while debian's version is more recent.
+# If you want, you can also compile a patched version that's more recent
+# See here: 
+
+wget http://adafruit-download.s3.amazonaws.com/adafruit_hostapd_14128.zip
+unzip adafruit_hostapd_14128.zip
+sudo mv /usr/sbin/hostapd /usr/sbin/hostapd.orig
+sudo mv hostapd /usr/sbin
+sudo chown root:root /usr/sbin/hostapd
+sudo chmod 755 /usr/sbin/hostapd
+
+
+# --- Step 4: Configuring dnsmasq: DHCP and DNS server
+
+sudo tee /etc/dnsmasq.d/quest.conf << EOF
 # Add domains which you want to force to an IP address here.
-# The example below send any host in double-click.net to a local
-# web-server.
-#address=/double-click.net/127.0.0.1
+# Using # as domain name is a wildcard.
+# This this says: respond to any DNS request for any domain with the same
+# IP address 192.168.42.1. This will make sure the connected smartphones will
+# contact the raspberry webserver for any website they try to visit.
 address=/#/192.168.42.1
 
 # If you want dnsmasq to listen for DHCP and DNS requests only on
@@ -101,6 +156,12 @@ log-dhcp
 log-facility=/var/log/dnsmasq.log
 EOF
 
+# Even though we excluded the loopback lo interface above, resolv.conf will
+# still mention 127.0.0.1 as DNS server. This prevents from making outbound
+# connections over the ethernet cable (since we told dnsmasq to resolve
+# any DNS query to itself). Therefor, explicitly blacklist 127.0.0.1 as
+# DNS server on this machine.
+
 sudo cp /etc/resolvconf.conf /etc/resolvconf.conf.old
 sudo patch /etc/resolvconf.conf << EOF
 @@ -11,3 +11,7 @@
@@ -114,61 +175,24 @@ sudo patch /etc/resolvconf.conf << EOF
 EOF
 
 
-# --- HOSTAPD
+# --- Step 5: Configuring nginx: webserver
 
-sudo mkdir -p /etc/hostapd 
-sudo tee /etc/hostapd/hostapd.conf << EOF
-interface=wlan0
-driver=rtl871xdrv
-ssid=BernadetteSoubirous
-hw_mode=g
-channel=6
-macaddr_acl=0
-auth_algs=1
-ignore_broadcast_ssid=0
-wpa=2
-wpa_passphrase=jacomet
-wpa_key_mgmt=WPA-PSK
-wpa_pairwise=TKIP
-rsn_pairwise=CCMP
-EOF
+# Two tasks
+# - redirect any HTTP request quest.ksadegraal.be with a 307 temporary redirect.
+#   This will trigger the captive portal alert on most smartphones: the
+#   smartphone will detect its not directly connected to the internet, and
+#   will show an alert that the user still needs to login before he/she can
+#   proceed. This allows us to send them to quest.ksadegraal.be
+# 
+# - serve quest.ksadegraal.be:
+#   - it's mostly static assets (files are stored in /home/pi/www), 
+#     so try_files on /
+#   - /api/* paths are for the dynamic REST API. The need to be proxied to our
+#     backend server, running on localhost:3000.
+#     (final slash on both /api/ and localhost:3000/ so that /api/foo will
+#      be proxied to localhost:3000/foo).
 
-sudo cp /etc/default/hostapd /etc/default/hostapd.old
-sudo patch /etc/default/hostapd << EOF
-@@ -7,7 +7,7 @@
- # file and hostapd will be started during system boot. An example configuration
- # file can be found at /usr/share/doc/hostapd/examples/hostapd.conf.gz
- #
--#DAEMON_CONF=""
-+DAEMON_CONF="/etc/hostapd/hostapd.conf"
-
- # Additional daemon options to be appended to hostapd command:-
- #      -d   show more debug messages (-dd for even more)
-EOF
-
-
-# PATCHED HOSTAPD
-
-wget http://adafruit-download.s3.amazonaws.com/adafruit_hostapd_14128.zip
-unzip adafruit_hostapd_14128.zip
-sudo mv /usr/sbin/hostapd /usr/sbin/hostapd.orig
-sudo mv hostapd /usr/sbin
-sudo chown root:root /usr/sbin/hostapd
-sudo chmod 755 /usr/sbin/hostapd
-
-
-# BACKEND SERVER
-
-cd ~
-git clone https://git.chateau.bramz.net/Bramz/quest-lourdes-drop.git
-cd quest-lourdes-drop/backend
-make
-
-
-# --- CONFIGURING NGINX
-# http://serverfault.com/questions/679393/captive-portal-popups-the-definitive-guide
-
-sudo tee /etc/nginx/sites-available/degraal << EOF
+sudo tee /etc/nginx/sites-available/quest << EOF
 server {
 	listen 80 default_server;
 	listen [::]:80 default_server;
@@ -198,11 +222,16 @@ server {
 }
 EOF
 sudo rm /etc/nginx/sites-enabled/default
-sudo ln -s /etc/nginx/sites-available/degraal /etc/nginx/sites-enabled/degraal
+sudo ln -s /etc/nginx/sites-available/quest /etc/nginx/sites-enabled/quest
 
 
+# --- Step 6: install backend server (REST API), written in node.js
 
-# --- finally, set hostname and reboot
+cd ~
+git clone https://git.chateau.bramz.net/Bramz/quest-lourdes-drop.git
+cd ~/quest-lourdes-drop/backend
 
-sudo hostnamectl set-hostname degraal
-sudo reboot
+# first "build" it as user pi (this will download all npm dependencies)
+make
+# then install it as a systemd service. It'll be called quest-api
+sudo make install

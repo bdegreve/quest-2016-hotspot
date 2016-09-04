@@ -9,20 +9,20 @@ Missing from this repository is the video material.
 Requirements
 ------------
 
-- Raspberry Pi (I used a 1st generation model B)
-- USB WiFi module:
-  - I successfully used two different models, both having Realtek chipsets:
+* Raspberry Pi (I used a 1st generation model B)
+* USB WiFi module:
+  + I successfully used two different models, both having Realtek chipsets:
     - [LB-Link BL-LW05-AR2](https://www.adafruit.com/product/1030)
     - [Trendnet TEW-624UB](https://www.trendnet.com/products/wifi/N-adapters/N300/TEW-624UB)
-  - If you're using another model which also has a Realtek chipset, changes are
+  + If you're using another model which also has a Realtek chipset, changes are
    things will work as scripted. But YMMV.
-  - If you're using one with another chipset, check out the bit on `hostapd`
+  + If you're using one with another chipset, check out the bit on `hostapd`
    in `scripts/rpi-jessie-setup.sh`.
-- SD Card (4GB is fine, 2GB might work too)
-- Battery pack to power the hotspot
-- Linux PC (I used Ubuntu 16.04) with Node.js (>= 4.x) to build frontend:
-  - `sudo apt-get install nodejs-legacy npm`.
-  - Windows will work too if you know what you're doing, but you won't be able
+* SD Card (4GB is fine, 2GB might work too)
+* Battery pack to power the hotspot
+* Linux PC (I used Ubuntu 16.04) with Node.js (>= 4.x) to build frontend:
+  + `sudo apt-get install nodejs-legacy npm`.
+  + Windows will work too if you know what you're doing, but you won't be able
    to use the makefiles.
 
 How it works
@@ -61,7 +61,7 @@ On the Raspberry Pi run following processes:
 3. When they do, they hit [`nginx`](https://www.nginx.com/) which is the 
    webserver that will respond to all HTTP requests:
    
-  - Any request for a domain other that `quest.ksadegraal.be`, is responded to
+  * Any request for a domain other that `quest.ksadegraal.be`, is responded to
    with 307 temporary redirect to `quest.ksadegraal.be`. This makes sure that 
    whatever random website the player tries to access, they will be redirected
    to our game.
@@ -73,9 +73,9 @@ On the Raspberry Pi run following processes:
      }
      ```
      
-  - HTTP requests for `quest.ksadegraal.be` are fully handled:
-    - It's mostly static files stored in `/home/pi/www`.
-    - A reverse proxy on `/api/` makes sure requests to the REST API are 
+  * HTTP requests for `quest.ksadegraal.be` are fully handled:
+    + It's mostly static files stored in `/home/pi/www`.
+    + A reverse proxy on `/api/` makes sure requests to the REST API are 
      properly forwarded to the node.js process running on local port 3000.
 
     ```
@@ -108,9 +108,9 @@ On the Raspberry Pi run following processes:
   of players, ranking) is served by a backend [node.js](https://nodejs.org/) 
   process, exposed via a REST API mounted on `http://quest.ksadegraal.be/api/`.
   
-  - The application shows a puzzle the player must solve, and a (ticking) clock
+  * The application shows a puzzle the player must solve, and a (ticking) clock
    that shows how long they're already playing.
-  - Once they solve the puzzle, the clock is stopped (and logged on the backend),
+  * Once they solve the puzzle, the clock is stopped (and logged on the backend),
    and the secret content is unlocked. A ranking of all players is also shown.
 
 Installation
@@ -119,9 +119,9 @@ Installation
 ### Prepare base system
 
 1. Download Raspbian Jessie Lite image and unzip it to get an `.img` file.
- - I used [2016-05-10-raspbian-jessie-lite.img](https://downloads.raspberrypi.org/raspbian/images/raspbian-2016-05-13/2016-05-10-raspbian-jessie.zip)
+ * I used [2016-05-10-raspbian-jessie-lite.img](https://downloads.raspberrypi.org/raspbian/images/raspbian-2016-05-13/2016-05-10-raspbian-jessie.zip)
   and the instructions below are based on that image.
- - If you're looking for the most recent version, [look here](https://www.raspberrypi.org/downloads/raspbian/).
+ * If you're looking for the most recent version, [look here](https://www.raspberrypi.org/downloads/raspbian/).
  
  ```
  wget https://downloads.raspberrypi.org/raspbian/images/raspbian-2016-05-13/2016-05-10-raspbian-jessie.zip
@@ -153,12 +153,12 @@ Install and configure all software on Raspberry Pi. You'll find a script
 to do so in `scripts/rpi-jessie-setup.sh`.
 
 **NOTE**: It's **not** generic nor fault tolerant. It works in my case, but YMMV:
-  - It's based on `2016-05-10-raspbian-jessie-lite.img
-  - It assumes a Realtek chipset for the WiFi module:
-    - It will configure `driver=rtl871xdrv` in `/etc/hostapd/hostapd.conf`
-    - It will replace `/usr/sbin/hostapd` by a patched version from 
+  * It's based on `2016-05-10-raspbian-jessie-lite.img
+  * It assumes a Realtek chipset for the WiFi module:
+    + It will configure `driver=rtl871xdrv` in `/etc/hostapd/hostapd.conf`
+    + It will replace `/usr/sbin/hostapd` by a patched version from 
      [Adafruit](https://learn.adafruit.com/setting-up-a-raspberry-pi-as-a-wifi-access-point/install-software#configure-access-point)
-    - If you need another chipset, you will need to change the section on
+    + If you need another chipset, you will need to change the section on
      `hostapd` in `scripts/rpi-jessie-setup.sh`
 
 There's a top-level Makefile that will execute the script over SSH:

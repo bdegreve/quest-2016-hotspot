@@ -86,7 +86,7 @@ EOF
 # -- PATCHING HOSTAPD
 # Debian's version of hostapd installed with apt-get install hostapd
 # doesn't support the realteck rtl871xdrv driver.
-# As per https://learn.adafruit.com/setting-up-a-raspberry-pi-as-a-wifi-access-point/install-software
+# As per https://learn.adafruit.com/setting-up-a-raspberry-pi-as-a-wifi-access-point/install-software#configure-access-point
 # we replace it by a patched version
 #
 # remark: this patched version is quite old (version )

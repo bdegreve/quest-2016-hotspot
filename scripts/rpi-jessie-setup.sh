@@ -228,9 +228,8 @@ sudo ln -s /etc/nginx/sites-available/quest /etc/nginx/sites-enabled/quest
 # --- Step 6: install backend server (REST API), written in node.js
 
 cd ~
-git clone https://git.chateau.bramz.net/Bramz/quest-lourdes-drop.git
-cd ~/quest-lourdes-drop/backend
-
+git clone https://github.com/bdegreve/quest-2016-hotspot.git
+cd ~/quest-2016-hotspot/backend
 # first "build" it as user pi (this will download all npm dependencies)
 make
 # then install it as a systemd service. It'll be called quest-api

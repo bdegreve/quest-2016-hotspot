@@ -14,12 +14,12 @@
   "author": "Bram de Greve <bram.degreve@bramz.net>",
   "license": "UNLICENSED",
   "dependencies": {
-    "body-parser": "1.15.2",
-    "express": "4.14.0",
-    "lodash": "4.15.0",
-    "lowdb": "0.13.1"
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "lodash": "^4.17.11",
+    "lowdb": "~0.13.1"
   },
   "devDependencies": {
-    "standard": "7.1.2"
+    "standard": "^7.1.2"
   }
 }

@@ -1,3 +1,9 @@
+ifdef ComSpec
+	RMRF=powershell function rmrf ($$path) { if (Test-Path $$path) { Remove-Item -Recurse -Force $$path } }; rmrf
+else
+	RMRF=rm -rf
+endif
+
 all: node_modules
 
 check: node_modules
@@ -17,8 +23,10 @@ node_modules: package.json npm-shrinkwrap.json
 
 clean:
 	npm prune
-	rm -rf build
-	rm -rf dist
+	${RMRF} build
+	${RMRF} dist
 
 distclean: clean
-	rm -rf node_modules
+	${RMRF} node_modules
+
+.PHONY: all run check clean distclan install

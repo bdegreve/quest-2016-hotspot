@@ -1,7 +1,13 @@
+ifdef ComSpec
+	RMRF=powershell function rmrf ($$path) { if (Test-Path $$path) { Remove-Item -Recurse -Force $$path } }; rmrf
+else
+	RMRF=rm -rf
+endif
+
 HOST = pi@raspberrypi
 
 all: node_modules
-	NODE_ENV=production npm run build
+	npm run build
 	
 run: node_modules
 	npm start
@@ -17,9 +23,11 @@ install: all
 
 clean:
 	npm prune
-	rm -rf build
-	rm -rf dist
+	${RMRF} build
+	${RMRF} dist
 
 distclean: clean
-	rm -rf node_modules
-	rm -rf app/media
+	${RMRF} node_modules
+	${RMRF} app/media
+
+.PHONY: all run check clean distclan install

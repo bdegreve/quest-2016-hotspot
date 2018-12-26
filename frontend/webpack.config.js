@@ -67,7 +67,7 @@ const cssLoaders = [
 module.exports = {
   mode: DEBUG ? 'development' : 'production',
   entry: {
-    main: ['babel-polyfill', './app/app.js']
+    main: ['@babel/polyfill', './app/app.js']
   },
   output: {
     path: path.resolve(__dirname, 'dist'),

@@ -1,5 +1,6 @@
 import React from 'react'
 import FlipMove from 'react-flip-move'
+import PropTypes from 'prop-types'
 
 import styles from './style.less'
 
@@ -25,8 +26,8 @@ class Tile extends React.Component {
 }
 
 Tile.propTypes = {
-  value: React.PropTypes.number,
-  onClick: React.PropTypes.func.isRequired
+  value: PropTypes.number,
+  onClick: PropTypes.func.isRequired
 }
 
 const Animated = ({children, className, style}) =>
@@ -66,8 +67,8 @@ class FifteenPuzzle extends React.Component {
 }
 
 FifteenPuzzle.propTypes = {
-  tiles: React.PropTypes.arrayOf(React.PropTypes.object),
-  onTileClick: React.PropTypes.func.isRequired
+  tiles: PropTypes.arrayOf(PropTypes.object),
+  onTileClick: PropTypes.func.isRequired
 }
 
 export default FifteenPuzzle

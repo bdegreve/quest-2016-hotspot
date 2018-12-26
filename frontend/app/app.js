@@ -13,7 +13,7 @@ import getPlayers from 'api/players'
 if (typeof document !== 'undefined') {
   getTimer()
   getPlayers()
-  ReactDOM.render(
+  ReactDOM.hydrate(
     <Provider store={store}>
       <Layout />
     </Provider>,

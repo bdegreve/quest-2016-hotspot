@@ -52,10 +52,10 @@ export default (locals, callback) => {
         ))}
       </head>
       <body>
-        <div id='content' dangerouslySetInnerHTML={{__html: content}} />
+        <div id='content' dangerouslySetInnerHTML={{ __html: content }} />
         <script id='initial-state'
           type='application/json'
-          dangerouslySetInnerHTML={{__html: initialState}}
+          dangerouslySetInnerHTML={{ __html: initialState }}
         />
         {scripts.map((asset, index) => (
           <script key={index} type='text/javascript' src={asset} />

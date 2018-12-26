@@ -4,12 +4,12 @@ import humanizeTime from 'lib/humanize-time'
 
 import style from './style.less'
 
-export default ({timer, players}) => {
+export default ({ timer, players }) => {
   const stopped = checkStopped(players)
   return <Timer {...timer} stopped={stopped} />
 }
 
-function checkStopped ({selected, players}) {
+function checkStopped ({ selected, players }) {
   if (selected < 1 || selected >= players.length) {
     return null
   }
@@ -36,6 +36,5 @@ class Timer extends React.Component {
   }
 }
 
-const TimeDelta = ({millis}) =>
+const TimeDelta = ({ millis }) =>
   <p className={style.timer}>{humanizeTime(millis)}</p>
-

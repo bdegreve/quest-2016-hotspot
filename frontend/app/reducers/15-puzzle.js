@@ -32,7 +32,7 @@ const index2ij = (index) => ({
 const ij2index = (i, j) => (j * N + i) | 0
 
 const findSwapIndex = (tiles, index) => {
-  const {i, j} = index2ij(index)
+  const { i, j } = index2ij(index)
   if (i > 0) {
     const index2 = ij2index(i - 1, j)
     if (!tiles[index2].value) {
@@ -60,7 +60,7 @@ const findSwapIndex = (tiles, index) => {
   return null
 }
 
-const isSolved = (tiles) => tiles.every(({value}, index) => (
+const isSolved = (tiles) => tiles.every(({ value }, index) => (
   value === (index < (tiles.length - 1) ? (index + 1) : null)
 ))
 
@@ -68,7 +68,7 @@ export default function (state = initialState, action) {
   switch (action.type) {
     case MOVE_TILE:
       if (action.value) {
-        const {tiles} = state
+        const { tiles } = state
         const index = tiles.findIndex((tile) => tile.value === action.value)
         const index2 = findSwapIndex(tiles, index)
         if (index2 !== null) {

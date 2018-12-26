@@ -42,7 +42,7 @@
     "react-flip-move": "^2.10.2",
     "react-redux": "^4.4.9",
     "redux": "^3.7.2",
-    "standard": "^7.1.2",
+    "standard": "^12.0.1",
     "standard-loader": "^6.0.1",
     "static-site-generator-webpack-plugin": "^3.4.2",
     "style-loader": "~0.23.1",

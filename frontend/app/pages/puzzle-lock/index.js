@@ -14,7 +14,7 @@ const PuzzleWrapper = Dimensions()(
       const { containerWidth, containerHeight, hasGroup } = this.props
       const size = Math.min(containerWidth, containerHeight)
       if (!hasGroup) {
-        return <p style={{width: size, height: size}}>
+        return <p style={{ width: size, height: size }}>
           Selecteer je groep...
         </p>
       }
@@ -23,7 +23,7 @@ const PuzzleWrapper = Dimensions()(
   }
 )
 
-const View = ({players}) =>
+const View = ({ players }) =>
   <div className={style.wrapper}>
     <div className={style.select}>
       <PlayerSelect />

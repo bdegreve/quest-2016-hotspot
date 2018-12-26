@@ -4,7 +4,7 @@ import humanizeTime from 'lib/humanize-time'
 
 import style from './style.less'
 
-export default ({timer, players}) => {
+export default ({ timer, players }) => {
   const started = timer.started
   const player = players.players[players.selected]
 

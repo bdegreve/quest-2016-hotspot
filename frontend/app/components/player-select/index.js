@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default ({players, selected, onSelect}) =>
+export default ({ players, selected, onSelect }) =>
   <select
     value={selected || ''}
     onChange={(ev) => onSelect(ev.target.value)}

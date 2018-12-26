@@ -8,7 +8,7 @@ var db = low(path.join(__dirname, 'db.json'), {
   storage: fileAsync
 })
 
-db.defaults({ 
+db.defaults({
   started: Date.now(),
   players: [] }
 )
@@ -16,7 +16,7 @@ db.defaults({
 var app = express()
 
 app.set('port', (process.env.PORT || 3000))
-app.use(bodyParser.json());
+app.use(bodyParser.json())
 
 app.get('/timer', function (req, res) {
   res.setHeader('Cache-Control', 'no-cache')
@@ -33,26 +33,26 @@ app.get('/players', function (req, res) {
   })
 })
 
-app.post('/players/stop-the-clock', function  (req, res) {
+app.post('/players/stop-the-clock', function (req, res) {
   res.setHeader('Cache-Control', 'no-cache')
 
-  console.log('---------')  
+  console.log('---------')
   var player = db.get('players')
-    .find({name: req.body.name})
+    .find({ name: req.body.name })
     .value()
   console.log('-- player:', player)
-  
+
   if (!player.stopped) {
     player = db.get('players')
-      .find({name: req.body.name})
-      .assign({stopped: Date.now()})
+      .find({ name: req.body.name })
+      .assign({ stopped: Date.now() })
       .value()
   }
   console.log('-- player:', player)
 
   var players = db.get('players').value()
   console.log('-- players:', players)
-  
+
   res.json({
     players: players
   })

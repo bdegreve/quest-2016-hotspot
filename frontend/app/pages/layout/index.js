@@ -12,7 +12,7 @@ import style from './style.less'
 class Layout extends React.Component {
   componentWillReceiveProps (nextProps) {
     if (nextProps.unlocked && !this.props.unlocked) {
-      const {selected, players} = this.props.players
+      const { selected, players } = this.props.players
       if (selected > 0 && selected < players.length) {
         stopTheClock(players[selected])
       }
@@ -20,7 +20,7 @@ class Layout extends React.Component {
   }
 
   render () {
-    const {loaded, unlocked} = this.props
+    const { loaded, unlocked } = this.props
     if (!loaded) {
       return <Loading />
     }

@@ -8,7 +8,7 @@ import styles from './style.less'
 
 class Tile extends React.Component {
   render () {
-    const {value, onClick, size, index} = this.props
+    const { value, onClick, size, index } = this.props
     const style = {
       top: (size * Math.floor(index / 4)) + 'px',
       left: (size * (index % 4)) + 'px',
@@ -30,22 +30,22 @@ Tile.propTypes = {
   onClick: PropTypes.func.isRequired
 }
 
-const Animated = ({children, className, style}) =>
+const Animated = ({ children, className, style }) =>
   window && window.requestAnimationFrame
-  ? (
-    <FlipMove duration={75} className={className} style={style}>
-      {children}
-    </FlipMove>
-  )
-  : (
-    <div className={className} style={style}>
-      {children}
-    </div>
-  )
+    ? (
+      <FlipMove duration={75} className={className} style={style}>
+        {children}
+      </FlipMove>
+    )
+    : (
+      <div className={className} style={style}>
+        {children}
+      </div>
+    )
 
 class FifteenPuzzle extends React.Component {
   render () {
-    const {size, tiles, onTileClick} = this.props
+    const { size, tiles, onTileClick } = this.props
     const style = {
       width: size,
       height: size
@@ -53,7 +53,7 @@ class FifteenPuzzle extends React.Component {
 
     return (
       <Animated className={styles.container} style={style}>
-        {tiles.map(({value}, index) => (
+        {tiles.map(({ value }, index) => (
           <Tile
             key={value}
             value={value}

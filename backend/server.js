@@ -3,7 +3,7 @@ var fs = require('fs')
 var express = require('express')
 var bodyParser = require('body-parser')
 
-var PATH=path.join(__dirname, 'db.json')
+var PATH = path.join(__dirname, 'db.json')
 
 var app = express()
 
@@ -17,7 +17,7 @@ function load (cb) {
 
 function save (data) {
   fs.writeFileSync(PATH, JSON.stringify(data, null, 2))
-}	
+}
 
 app.get('/timer', function (req, res) {
   res.setHeader('Cache-Control', 'no-cache')
@@ -36,20 +36,20 @@ app.get('/players', function (req, res) {
   })
 })
 
-app.post('/players/stop-the-clock', function  (req, res) {
+app.post('/players/stop-the-clock', function (req, res) {
   res.setHeader('Cache-Control', 'no-cache')
 
   console.log('---------')
   var data = load()
 
   var players = data.players.map(function (p) {
-    if (p.name == req.body.name && !p.stopped) {
+    if (p.name === req.body.name && !p.stopped) {
       p.stopped = Date.now()
     }
     return p
   })
 
-  data.players = players   
+  data.players = players
   save(data)
 
   res.json({

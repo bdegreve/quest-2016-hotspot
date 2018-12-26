@@ -36,7 +36,7 @@ export default function (state = INITIAL_STATE, action) {
       if (action.value) {
         console.log('UPDATE_PLAYER:', action.value)
         const player = action.value
-        const {players} = state
+        const { players } = state
         const index = players.findIndex((p) => p.name === player.name)
         if (index < 0) {
           return state

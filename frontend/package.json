@@ -1,7 +1,7 @@
 {
-  "name": "quest-lourdes-drop",
-  "version": "1.0.0",
-  "description": "Dead Drop Box for Lourdes Quest",
+  "name": "quest-2016-hotspot-frontend",
+  "version": "1.1.0",
+  "description": "Dead Drop Box for Lourdes Quest 2016",
   "main": "dev-server.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --colors",
@@ -10,10 +10,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://git.chateau.bramz.net/Bramz/quest-lourdes-drop.git"
+    "url": "https://github.com/bdegreve/quest-2016-hotspot.git"
   },
   "author": "Bram de Greve",
-  "license": "UNLICENSED",
+  "license": "ISC",
   "private": true,
   "dependencies": {
     "@babel/cli": "^7.2.3",

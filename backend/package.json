@@ -1,7 +1,7 @@
 {
-  "name": "quest-lourdes-backend",
-  "version": "1.0.0",
-  "description": "Backend server of final puzzle for Lourdes Quest",
+  "name": "quest-2016-hotspot-backend",
+  "version": "1.1.0",
+  "description": "Backend server of final puzzle for Lourdes Quest 2016",
   "main": "server.js",
   "scripts": {
     "test": "standard",
@@ -9,10 +9,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://git.chateau.bramz.net/Bramz/quest-lourdes-drop.git"
+    "url": "https://github.com/bdegreve/quest-2016-hotspot.git"
   },
   "author": "Bram de Greve <bram.degreve@bramz.net>",
-  "license": "UNLICENSED",
+  "license": "ISC",
+  "private": true,
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",

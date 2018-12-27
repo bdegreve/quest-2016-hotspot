@@ -3,5 +3,10 @@
   "editor.tabSize": 2,
   "editor.rulers": [80],
   "editor.renderControlCharacters": true,
-  "editor.renderWhitespace": true
+  "editor.renderWhitespace": "all",
+  "javascript.validate.enable": false,
+  "standard.autoFixOnSave": true,
+  "prettier.semi": false,
+  "prettier.singleQuote": true,
+  "prettier.jsxSingleQuote": true,
 }
